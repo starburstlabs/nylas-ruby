@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 describe Nylas::Message do
-  describe ".from_json" do
-    it "Deserializes all the attributes into Ruby objects" do
-      api = instance_double(Nylas::API)
-      data = { id: "mess-8766", object: "message", account_id: "acc-1234", thread_id: "thread-1234",
+  let(:data) do
+    data = { id: "mess-8766", object: "message", account_id: "acc-1234", thread_id: "thread-1234",
                date: 1_511_302_748,
                to: [{ email: "to@example.com", name: "To Example" }],
                from: [{ email: "from@example.com", name: "From Example" }],
@@ -31,6 +29,11 @@ describe Nylas::Message do
                folder: { display_name: "Inbox", id: "folder-inbox", name: "inbox" },
                labels: [{ display_name: "Inbox", id: "label-inbox", name: "inbox" },
                         { display_name: "All Mail", id: "label-all", name: "all" }] }
+  end
+
+  describe ".from_json" do
+    it "Deserializes all the attributes into Ruby objects" do
+      api = instance_double(Nylas::API)
 
       message = described_class.from_json(JSON.dump(data), api: api)
       expect(message.id).to eql "mess-8766"
@@ -119,6 +122,17 @@ describe Nylas::Message do
       expect(message.labels[1].id).to eql "label-all"
       expect(message.labels[1].name).to eql "all"
       expect(message.labels[1].api).to be api
+    end
+  end
+
+  describe '#serialize' do
+    it 'serializes labels correctly' do
+      api = instance_double(Nylas::API)
+      message = described_class.from_json(JSON.dump(data), api: api)
+
+      expect(
+        JSON.parse(message.attributes.serialize)['labels']
+      ).to match_array(%w(label-inbox label-all))
     end
   end
 

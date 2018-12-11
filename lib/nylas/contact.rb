@@ -29,6 +29,7 @@ module Nylas
     attribute :manager_name, :string
     attribute :office_location, :string
     attribute :notes, :string
+    attribute :source, :string
     attribute :web_page, :web_page
     attribute :source, :string
 
