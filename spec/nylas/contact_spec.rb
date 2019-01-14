@@ -9,16 +9,14 @@ describe Nylas::Contact do
       '"birthday": "1984-01-01", "suffix": "Jr.", "nickname": "nick", ' \
       '"company_name": "company", "job_title": "title", ' \
       '"manager_name": "manager", "office_location": "the office", ' \
-      '"picture_url": "", ' \
-      '"source": "", ' \
-      '"web_page": { "type": "", "url": "" }, ' \
       '"notes": "some notes", "emails": [' \
-        '{ "type": "work", "email": "given@work.example.com", "name": "" }, ' \
-        '{ "type": "home", "email": "given@home.example.com", "name": "" }], ' \
+        '{ "type": "work", "email": "given@work.example.com" }, ' \
+        '{ "type": "home", "email": "given@home.example.com" }], ' \
       '"im_addresses": [{ "type": "gtalk", "im_address": "given@gtalk.example.com" }],' \
       '"physical_addresses": [{ "format": "structured", "type": "work",' \
         '"street_address": "123 N West St", "postal_code": "12345+0987", "city": "Los Angeles", "state": "CA",' \
         '"country": "USA" }],' \
+      '"web_page": {}, ' \
       '"phone_numbers": [{ "type": "mobile", "number": "+1234567890" }], ' \
       '"web_pages": [{ "type": "profile", "url": "http://given.example.com" }],' \
       '"source": "address_book",' \
@@ -60,11 +58,9 @@ describe Nylas::Contact do
       expected_payload = JSON.dump(given_name: "Given",
                                    birthday: "2017-01-01",
                                    emails: [{ type: "work",
-                                              email: "given@other-job.example.com",
-                                              name: "" },
+                                              email: "given@other-job.example.com" },
                                             { type: "home",
-                                              email: "given@other-home.example.com",
-                                              name: "" }])
+                                              email: "given@other-home.example.com" }])
       expect(request[:method]).to be :put
       expect(request[:path]).to eql "/contacts/1234"
       expect(request[:payload]).to eql(expected_payload)
@@ -114,6 +110,7 @@ describe Nylas::Contact do
       contact = described_class.from_json(full_json, api: api)
       expect(contact.to_h).to eql(id: "1234",
                                   object: "contact",
+                                  source: "address_book",
                                   account_id: "12345",
                                   given_name: "given",
                                   middle_name: "middle",
@@ -126,11 +123,9 @@ describe Nylas::Contact do
                                   birthday: "1984-01-01",
                                   company_name: "company",
                                   notes: "some notes",
-                                  picture_url: "",
-                                  source: "address_book",
-                                  web_page: { type: "", url: "" },
-                                  emails: [{ type: "work", email: "given@work.example.com", name: "" },
-                                           { type: "home", email: "given@home.example.com", name: "" }],
+                                  web_page: {},
+                                  emails: [{ type: "work", email: "given@work.example.com" },
+                                           { type: "home", email: "given@home.example.com" }],
                                   im_addresses: [{ type: "gtalk", im_address: "given@gtalk.example.com" }],
                                   phone_numbers: [{ type: "mobile", number: "+1234567890" }],
                                   physical_addresses: [{ format: "structured", type: "work",
@@ -156,15 +151,12 @@ describe Nylas::Contact do
                                   manager_name: "manager",
                                   birthday: "1984-01-01",
                                   company_name: "company",
-                                  picture_url: "",
-                                  source: "",
-                                  web_page: "",
                                   emails: [],
                                   groups: [],
                                   im_addresses: [],
-                                  notes: "",
-                                  web_pages: [],
                                   phone_numbers: [],
+                                  web_page: {},
+                                  web_pages: [],
                                   physical_addresses: [{ format: "structured", type: "work",
                                                          street_address: "123 N West St",
                                                          postal_code: "", city: "", state: "",
