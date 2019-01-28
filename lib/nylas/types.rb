@@ -92,7 +92,7 @@ module Nylas
       end
 
       def serialize(object)
-        object.to_i
+        object.to_i unless object.nil?
       end
     end
     Types.registry[:unix_timestamp] = UnixTimestampType.new
