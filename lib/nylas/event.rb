@@ -48,6 +48,7 @@ module Nylas
 
                  payload = JSON.parse(attributes.serialize)
                  payload["when"] = payload["when"].except("object")
+                 payload.delete("recurrence") if payload["recurrence"].empty?
                  execute(method: :put, payload: payload.to_json, path: resource_path)
                else
                  create
