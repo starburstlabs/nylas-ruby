@@ -27,17 +27,18 @@ module Nylas
     attribute :body, :string
     attribute :starred, :boolean
     attribute :unread, :boolean
+    attribute :tracking, :tracking
 
     has_n_of_attribute :events, :event
     has_n_of_attribute :files, :file
+    has_n_of_attribute :file_ids, :string
     attribute :folder, :folder
     has_n_of_attribute :labels, :label
 
     transfer :api, to: %i[events files folder labels]
 
     def send!
-      save
-      execute(method: :post, path: "/send", payload: JSON.dump(draft_id: id, version: version))
+      execute(method: :post, path: "/send", payload: to_json)
     end
 
     def starred?

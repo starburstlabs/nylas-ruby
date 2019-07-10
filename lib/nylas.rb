@@ -54,6 +54,7 @@ require_relative "nylas/message"
 require_relative "nylas/new_message"
 require_relative "nylas/raw_message"
 require_relative "nylas/thread"
+require_relative "nylas/tracking"
 require_relative "nylas/webhook"
 
 require_relative "nylas/native_authentication"
@@ -72,9 +73,9 @@ module Nylas
   Types.registry[:email_address] = Types::ModelType.new(model: EmailAddress)
   Types.registry[:event] = Types::ModelType.new(model: Event)
   Types.registry[:file] = Types::ModelType.new(model: File)
-  Types.registry[:folder] = Types::ModelType.new(model: Folder)
+  Types.registry[:folder] = Types::ContainerType.new(model: Folder)
   Types.registry[:im_address] = Types::ModelType.new(model: IMAddress)
-  Types.registry[:label] = Types::ModelType.new(model: Label)
+  Types.registry[:label] = Types::ContainerType.new(model: Label)
   Types.registry[:message] = Types::ModelType.new(model: Message)
   Types.registry[:message_headers] = MessageHeadersType.new
   Types.registry[:message_tracking] = Types::ModelType.new(model: MessageTracking)
@@ -84,6 +85,7 @@ module Nylas
   Types.registry[:recurrence] = Types::ModelType.new(model: Recurrence)
   Types.registry[:thread] = Types::ModelType.new(model: Thread)
   Types.registry[:timespan] = Types::ModelType.new(model: Timespan)
+  Types.registry[:tracking] = Types::ModelType.new(model: Tracking)
   Types.registry[:web_page] = Types::ModelType.new(model: WebPage)
   Types.registry[:nylas_date] = NylasDateType.new
   Types.registry[:contact_group] = Types::ModelType.new(model: ContactGroup)
