@@ -11,6 +11,7 @@ module Nylas
     attribute :object, :string
     attribute :account_id, :string
     attribute :thread_id, :string
+    attribute :data_sha256, :string
 
     attribute :headers, :message_headers
 
