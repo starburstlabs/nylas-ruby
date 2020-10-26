@@ -15,6 +15,8 @@ module Nylas
 
       def []=(key, value)
         data[key] = cast(key, value)
+      rescue Nylas::Registry::MissingKeyError
+        # Don't crash when a new attribute is added
       end
 
       private def cast(key, value)
